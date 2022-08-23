@@ -1,6 +1,6 @@
 namespace Infrastructure.Services
 {
-    public class SaveLoadService : IService
+    public class ProgressService : IService
     {
     }
 }

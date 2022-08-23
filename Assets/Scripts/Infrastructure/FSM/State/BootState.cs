@@ -1,15 +1,17 @@
-namespace Infrastructure.FSM
+namespace Infrastructure.FSM.State
 {
     public class BootState : IState
     {
-        public void Enter()
-        {
-            
-        }
+        private readonly GameStateMachine gameStateMachine;
 
-        public void Exit()
+        public BootState(GameStateMachine gameStateMachine)
         {
-            
+            this.gameStateMachine = gameStateMachine;
         }
+        
+        
+        public void Enter() => gameStateMachine.EnterState<MainMenuState>();
+
+        public void Exit() { }
     }
 }

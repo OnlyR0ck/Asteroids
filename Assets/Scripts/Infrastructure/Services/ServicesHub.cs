@@ -14,7 +14,7 @@ namespace Infrastructure.Services
         
             servicesHub
                 .RegisterService(new InputService())
-                .RegisterService(new SaveLoadService());
+                .RegisterService(new ProgressService());
         }
 
 

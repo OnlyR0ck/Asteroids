@@ -1,4 +1,4 @@
-namespace Infrastructure.FSM
+namespace Infrastructure.FSM.State
 {
     public class GameplayState : IState
     {

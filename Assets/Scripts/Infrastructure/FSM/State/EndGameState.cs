@@ -1,6 +1,6 @@
 using System;
 
-namespace Infrastructure.FSM
+namespace Infrastructure.FSM.State
 {
     public class EndGameState : IState
     {

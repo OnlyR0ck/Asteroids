@@ -16,7 +16,7 @@ namespace Infrastructure.Services
             servicesHub
                 .RegisterService(new InputService())
                 .RegisterService(new ProgressService())
-                //TODO:
+                //TODO: It's temporary solution, should find a better way to get reference to this service.
                 .RegisterService(Object.FindObjectOfType<GameSceneReferencesService>());
         }
 

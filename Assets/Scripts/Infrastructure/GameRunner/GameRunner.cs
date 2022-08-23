@@ -1,11 +1,11 @@
 using Infrastructure.FSM;
-using Infrastructure.FSM.State;
+using Infrastructure.FSM.States;
 using Infrastructure.Services;
 using UnityEngine;
 
 namespace Infrastructure.GameRunner
 {
-    public class GameRunner : MonoBehaviour
+    public class GameRunner : MonoBehaviour, ICoroutineRunner
     {
         private ServicesHub servicesHub;
         private GameStateMachine gameStateMachine;

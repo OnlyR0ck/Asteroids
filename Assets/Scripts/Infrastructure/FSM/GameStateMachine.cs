@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Infrastructure.FSM.State;
+using Infrastructure.FSM.States;
 using Infrastructure.Services;
 
 namespace Infrastructure.FSM
@@ -12,7 +12,7 @@ namespace Infrastructure.FSM
 
         public GameStateMachine(ServicesHub servicesHub)
         {
-            states = new Dictionary<Type, IExitableState>()
+            states = new Dictionary<Type, IExitableState>
             {
                 [typeof(BootState)] = new BootState(gameStateMachine: this),
                 
@@ -20,9 +20,16 @@ namespace Infrastructure.FSM
                     servicesHub.Resolve<UIScreenService>(),
                     servicesHub.Resolve<ProgressService>()),
                 
-                [typeof(StartGameState)] = new StartGameState(),
-                [typeof(GameplayState)] = new GameplayState(),
-                [typeof(EndGameState)] = new EndGameState()
+                [typeof(StartGameState)] = new StartGameState(
+                    servicesHub.Resolve<GameService>(),
+                    servicesHub.Resolve<UIScreenService>(),
+                    gameStateMachine: this),
+                
+                [typeof(GameplayState)] = new GameplayState(
+                    servicesHub.Resolve<GameService>(),
+                    gameStateMachine: this),
+                
+                [typeof(EndGameState)] = new EndGameState(servicesHub)
             };
         }
 

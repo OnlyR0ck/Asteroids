@@ -1,7 +1,7 @@
 using Infrastructure.Services;
 using UI.Screens;
 
-namespace Infrastructure.FSM.State
+namespace Infrastructure.FSM.States
 {
     public class MainMenuState : IState
     {

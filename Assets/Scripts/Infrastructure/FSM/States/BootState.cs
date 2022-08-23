@@ -1,4 +1,4 @@
-namespace Infrastructure.FSM.State
+namespace Infrastructure.FSM.States
 {
     public class BootState : IState
     {

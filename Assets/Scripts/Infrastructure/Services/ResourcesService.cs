@@ -1,7 +1,13 @@
 using Data.UI;
-using Infrastructure.Services;
 
-public class ResourcesService : IService
+namespace Infrastructure.Services
 {
-    public ScreensData Ui { get; set; }
+    public class ResourcesService : IService
+    {
+        public ScreensData Ui { get; set; }
+        public void Init()
+        {
+            
+        }
+    }
 }

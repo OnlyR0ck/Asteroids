@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Object = UnityEngine.Object;
 
 namespace Infrastructure.Services
 {
@@ -11,10 +12,12 @@ namespace Infrastructure.Services
         {
             servicesHub = this;
             servicesContainer = new Dictionary<Type, IService>();
-        
+
             servicesHub
                 .RegisterService(new InputService())
-                .RegisterService(new ProgressService());
+                .RegisterService(new ProgressService())
+                //TODO:
+                .RegisterService(Object.FindObjectOfType<GameSceneReferencesService>());
         }
 
 

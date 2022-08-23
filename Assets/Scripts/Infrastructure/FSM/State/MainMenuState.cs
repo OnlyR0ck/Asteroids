@@ -1,4 +1,5 @@
 using Infrastructure.Services;
+using UI.Screens;
 
 namespace Infrastructure.FSM.State
 {
@@ -14,7 +15,7 @@ namespace Infrastructure.FSM.State
         }
         public void Enter()
         {
-            uiScreenService.ShowScreen<MenuScreen>()
+            uiScreenService.ShowScreen<MenuScreen>();
         }
 
         public void Exit()

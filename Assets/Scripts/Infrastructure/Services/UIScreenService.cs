@@ -41,7 +41,8 @@ namespace Infrastructure.Services
         
             BaseScreen newScreenPrefab = screens[typeof(TScreenType)];
             BaseScreen newScreen = Object.Instantiate(newScreenPrefab, GameSceneReferencesService.GuiScreensRoot);
-        
+            currentScreen = newScreen;
+
             newScreen.Init(servicesHub, gameStateMachine);
         }
     }

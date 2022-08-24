@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Infrastructure.Services
@@ -27,22 +26,6 @@ namespace Infrastructure.Services
                     PlayerPrefs.SetInt(HighScoreKey, value);
                 }
             }
-        }
-    }
-
-
-    public class GameService : IService
-    {
-        public event Action OnPlayerLose;
-
-        public void Init()
-        {
-        
-        }
-
-        public void StopGame()
-        {
-        
         }
     }
 }

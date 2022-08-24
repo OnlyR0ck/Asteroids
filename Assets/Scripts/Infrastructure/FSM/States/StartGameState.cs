@@ -19,6 +19,7 @@ namespace Infrastructure.FSM.States
         public void Enter()
         {
             uiScreenService.ShowScreen<GameScreen>();
+            gameService.StartGame();
             gameStateMachine?.EnterState<GameplayState>();
         }
 

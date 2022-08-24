@@ -13,10 +13,7 @@ namespace Infrastructure.FSM.States
             this.uiScreenService = uiScreenService;
             this.progressService = progressService;
         }
-        public void Enter()
-        {
-            uiScreenService.ShowScreen<MenuScreen>();
-        }
+        public void Enter() => uiScreenService.ShowScreen<MenuScreen>();
 
         public void Exit()
         {

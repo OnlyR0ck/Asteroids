@@ -13,9 +13,9 @@ namespace Infrastructure.GameRunner
         private void Awake()
         {
             servicesHub = new ServicesHub();
-            servicesHub.Init();
-
             gameStateMachine = new GameStateMachine(servicesHub);
+            
+            servicesHub.Init(gameStateMachine);
             gameStateMachine.EnterState<BootState>();
         }
     }

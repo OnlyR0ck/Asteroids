@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4d364b2fc7e4270a440b83aee9dfca8, type: 3}
+  m_Name: Data_MainGame
+  m_EditorClassIdentifier: 
+  levelPrefab: {fileID: 4781167847224022532, guid: 77a23755afef40a42a921c3f1b7ecf17, type: 3}
+  playerSettings:
+    playerPrefab: {fileID: 6202905980930975294, guid: 4236fa7c35706bd4f9a0ecf938bb393c, type: 3}
+    speed: 10
+    lasersCooldown: 10
+    lasersShoots: 3
+    bulletSpeed: 20
+  enemiesSettings:
+    ufoSettings:
+      UFOPrefab: {fileID: 6202905980930975294, guid: 170cdf43741816e468fc8941f6632688, type: 3}
+      speedRange: {x: 7, y: 15}
+      bulletSpeed: 5
+      reloadSpeed: 5
+      spawnChance: 0.05
+      pointsForDestroy: 1000
+    asteroidsSettings:
+      asteroidPrefab: {fileID: 5705146649738355848, guid: 36eada3de0a48fe4fa76eb7a1604e17a, type: 3}
+      destroyedPieces: {x: 1, y: 4}
+      speedRange: {x: 3, y: 7}
+      piecesSpeedMultiplier: 1.5
+      spawnSpeed: 3
+      pointsForDestroy: 100

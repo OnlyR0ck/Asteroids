@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Infrastructure.FSM;
-using Object = UnityEngine.Object;
+using Infrastructure.GameRunner;
 
 namespace Infrastructure.Services
 {
@@ -9,27 +9,38 @@ namespace Infrastructure.Services
     {
         private Dictionary<Type, IService> servicesContainer;
 
-        private ServicesHub servicesHub;
+        private static ServicesHub servicesHub;
+        public static ServicesHub Container => servicesHub;
 
-        public void Init(GameStateMachine gameStateMachine)
+        public void Init(GameStateMachine gameStateMachine, ICoroutineRunner coroutineRunner)
         {
-            servicesHub = this;
-
             servicesContainer = new Dictionary<Type, IService>();
+            
+            servicesHub = this;
             servicesHub
                 .RegisterService(new ResourcesService())
                 .RegisterService(new InputService())
                 .RegisterService(new ProgressService())
-                
-                //TODO: It's temporary solution, should find a better way to get reference to this service.
-                .RegisterService(Object.FindObjectOfType<GameSceneReferencesService>())
-                
-                .RegisterService(new GameService(
+
+                .RegisterService(new GameObjectsService(
                     servicesHub.Resolve<ResourcesService>()))
-                
+
+                .RegisterService(new GameService(
+                    servicesHub.Resolve<GameObjectsService>(),
+                    servicesHub.Resolve<EnemiesService>(),
+                    servicesHub.Resolve<PlayerService>()))
+
                 .RegisterService(new UIScreenService(
-                    servicesHub, 
-                    gameStateMachine));
+                    servicesHub,
+                    gameStateMachine))
+
+                .RegisterService(new PlayerService( 
+                    servicesHub.Resolve<GameObjectsService>()))
+                
+                .RegisterService(new EnemiesService(
+                    coroutineRunner,
+                    servicesHub.Resolve<GameObjectsService>(),
+                    servicesHub.Resolve<ResourcesService>()));
         }
 
 

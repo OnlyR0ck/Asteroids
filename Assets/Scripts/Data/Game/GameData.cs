@@ -1,6 +1,6 @@
 ﻿using System;
-using Infrastructure.Services;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Data.Game
 {
@@ -14,14 +14,17 @@ namespace Data.Game
         {
             [SerializeField] private GameObject playerPrefab;
             [SerializeField] private float speed;
+            [SerializeField] private float rotationSpeed;
             [SerializeField] private float lasersCooldown;
             [SerializeField] private int lasersShoots;
             [SerializeField] private float bulletSpeed;
 
 
-            private Player() { }
-            
-            
+            private Player()
+            {
+            }
+
+
             public int LasersShoots => lasersShoots;
 
             public float LasersCooldown => lasersCooldown;
@@ -31,19 +34,21 @@ namespace Data.Game
             public float BulletSpeed => bulletSpeed;
 
             public GameObject PlayerPrefab => playerPrefab;
+
+            public float RotationSpeed => rotationSpeed;
         }
 
         [Serializable]
         public class Enemies
         {
-            [Space]
-            [SerializeField] private UFOs ufoSettings;
-            
-            [Space]
-            [SerializeField] private Asteroids asteroidsSettings;
-            
-            private Enemies() { }
-            
+            [Space] [SerializeField] private UFOs ufoSettings;
+
+            [Space] [SerializeField] private Asteroids asteroidsSettings;
+
+            private Enemies()
+            {
+            }
+
             [Serializable]
             public class UFOs
             {
@@ -55,8 +60,8 @@ namespace Data.Game
                 [SerializeField, Range(0, 1f)] private float spawnChance;
                 [SerializeField] private int pointsForDestroy;
 
-                
-                
+
+
                 public GameObject UfoPrefab => UFOPrefab;
 
                 public Vector2 SpeedRange => speedRange;
@@ -70,34 +75,37 @@ namespace Data.Game
                 public int PointsForDestroy => pointsForDestroy;
             }
 
-            
-            
+
+
             [Serializable]
             public class Asteroids
             {
                 [SerializeField] private GameObject asteroidPrefab;
-                [SerializeField] private Vector2 destroyedPieces;
+                [SerializeField] private GameObject asteroidPiecePrefab;
+                [SerializeField] private Vector2 destroyedPiecesCount;
                 [SerializeField] private Vector2 speedRange;
                 [SerializeField] private float piecesSpeedMultiplier;
-                [SerializeField] private float spawnSpeed;
+                [FormerlySerializedAs("spawnSpeed")] [SerializeField] private float spawnDelay;
                 [SerializeField] private int pointsForDestroy;
 
-                
+
                 public GameObject AsteroidPrefab => asteroidPrefab;
 
-                public Vector2 DestroyedPieces => destroyedPieces;
+                public Vector2 DestroyedPiecesCount => destroyedPiecesCount;
 
                 public Vector2 SpeedRange => speedRange;
 
                 public float PiecesSpeedMultiplier => piecesSpeedMultiplier;
 
-                public float SpawnSpeed => spawnSpeed;
+                public float SpawnDelay => spawnDelay;
 
                 public int PointsForDestroy => pointsForDestroy;
+                public GameObject AsteroidPiecePrefab => asteroidPiecePrefab;
             }
 
-            
+
             public UFOs UfoSettings => ufoSettings;
+
             
             public Asteroids AsteroidsSettings => asteroidsSettings;
         }
@@ -106,17 +114,17 @@ namespace Data.Game
 
         [SerializeField] private GameObject levelPrefab;
 
-        [Space, Header("Player")]
-        [SerializeField] private Player playerSettings;
+        [Space, Header("Player")] [SerializeField]
+        private Player playerSettings;
 
-        [Space, Header("Enemies")] 
-        [SerializeField] private Enemies enemiesSettings;
+        [Space, Header("Enemies")] [SerializeField]
+        private Enemies enemiesSettings;
 
 
         public Player PlayerSettings => playerSettings;
 
+        public Enemies EnemiesSettings => enemiesSettings;
+
         public GameObject LevelPrefab => levelPrefab;
     }
-
-    
 }

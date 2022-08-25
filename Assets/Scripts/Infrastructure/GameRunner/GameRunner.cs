@@ -15,7 +15,7 @@ namespace Infrastructure.GameRunner
             servicesHub = new ServicesHub();
             gameStateMachine = new GameStateMachine(servicesHub);
             
-            servicesHub.Init(gameStateMachine);
+            servicesHub.Init(gameStateMachine, this);
             gameStateMachine.EnterState<BootState>();
         }
     }

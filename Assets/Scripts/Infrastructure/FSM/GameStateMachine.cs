@@ -27,7 +27,8 @@ namespace Infrastructure.FSM
                 
                 [typeof(GameplayState)] = new GameplayState(
                     servicesHub.Resolve<GameService>(),
-                    gameStateMachine: this),
+                    gameStateMachine: this,
+                    servicesHub.Resolve<InputService>()),
                 
                 [typeof(EndGameState)] = new EndGameState(servicesHub)
             };

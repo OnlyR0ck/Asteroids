@@ -7,6 +7,9 @@ namespace Infrastructure.Services
         public static int Player => LayerMask.NameToLayer("Player");
         
         
-        public static int Enemies => LayerMask.NameToLayer("Enemies");
+        public static int EnemiesLayer => LayerMask.NameToLayer("Enemies");
+        
+        public static int EnemiesLayerMask 
+            => LayerMask.GetMask("Enemies");
     }
 }

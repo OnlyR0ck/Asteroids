@@ -1,12 +1,68 @@
-﻿using Data.Game;
+﻿using System;
+using Data.Game;
 using Infrastructure.Services;
 using UnityEngine;
 
 public class PlayerMovementController : MonoBehaviour
 {
+    #region Nested Types
+
+    private enum RotationType
+    {
+        None               = 0,
+        Clockwise          = 1,
+        CounterClockwise   = 2
+    }
+
+    #endregion
+
+
+
+    #region Fields
+
     private ResourcesService resourcesService;
     private GameData.Player playerSettings;
     private InputService inputService;
+
+    private RotationType currentRotationType;
+    
+    private float currentSpeed;
+    
+    private bool isMoving;
+    private float moveCancelledTime;
+
+    #endregion
+
+
+    
+    #region Unity lifecycle
+
+    private void OnEnable()
+    {
+        inputService.OnMoveActionPerformed += InputService_MoveActionPerformed;
+        inputService.OnMoveActionCanceled += InputService_OnMoveActionCancelled;
+        inputService.OnRotateAction += InputService_OnRotateAction;
+    }
+
+
+    private void OnDisable()
+    {
+        inputService.OnMoveActionPerformed -= InputService_MoveActionPerformed;
+        inputService.OnMoveActionCanceled -= InputService_OnMoveActionCancelled;
+        inputService.OnRotateAction -= InputService_OnRotateAction;
+    }
+
+    
+    private void Update()
+    {
+        ProcessMovement();
+        ProcessRotation();
+    }
+
+    #endregion
+
+
+    #region Public Methods
 
     public void Init(ResourcesService resourcesService, InputService inputService)
     {
@@ -16,21 +72,55 @@ public class PlayerMovementController : MonoBehaviour
         playerSettings = resourcesService.GameData.PlayerSettings;
     }
 
-    
-    private void OnEnable()
+    #endregion
+
+
+    private void InputService_OnRotateAction(float rotationAxis)
     {
-        inputService.OnMoveAction += InputService_OnMoveAction;
+        if (Math.Sign(rotationAxis) > 0)
+        {
+            currentRotationType = RotationType.Clockwise;
+        }
+        else if(Math.Sign(rotationAxis) <= 0)
+        {
+            currentRotationType = RotationType.CounterClockwise;
+        }
+        else
+        {
+            currentRotationType = RotationType.None;
+        }
     }
 
-    
-    private void OnDisable()
+
+    private void ProcessRotation()
     {
-        inputService.OnMoveAction -= InputService_OnMoveAction;
+        if (currentRotationType != RotationType.None)
+        {
+            transform.Rotate(-Vector3.back, playerSettings.RotationSpeed);
+        }
     }
 
-    
-    private void InputService_OnMoveAction()
+    private void ProcessMovement()
     {
+        if (!isMoving && currentSpeed > 0)
+        {
+            currentSpeed -= playerSettings.Acceleration * (Time.deltaTime * (Time.time - moveCancelledTime));
+        }
         
+        transform.Translate(transform.forward * (currentSpeed * Time.deltaTime));
+    }
+
+    
+    private void InputService_OnMoveActionCancelled(float time)
+    {
+        isMoving = false;
+        moveCancelledTime = time;
+    }
+
+
+    private void InputService_MoveActionPerformed(float holdDuration)
+    {
+        currentSpeed = holdDuration * playerSettings.Acceleration;
+        isMoving = true;
     }
 }

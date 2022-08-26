@@ -15,7 +15,10 @@ MonoBehaviour:
   levelPrefab: {fileID: 4781167847224022532, guid: 77a23755afef40a42a921c3f1b7ecf17, type: 3}
   playerSettings:
     playerPrefab: {fileID: 6202905980930975294, guid: 4236fa7c35706bd4f9a0ecf938bb393c, type: 3}
-    speed: 10
+    laserVisual: {fileID: 7573503170708191032, guid: 79244d6307c043845bd4025d3f36c7c3, type: 3}
+    maxSpeed: 0
+    acceleration: 0
+    rotationSpeed: 0
     lasersCooldown: 10
     lasersShoots: 3
     bulletSpeed: 20
@@ -24,13 +27,14 @@ MonoBehaviour:
       UFOPrefab: {fileID: 6202905980930975294, guid: 170cdf43741816e468fc8941f6632688, type: 3}
       speedRange: {x: 7, y: 15}
       bulletSpeed: 5
-      reloadSpeed: 5
+      reloadDelay: 5
       spawnChance: 0.05
       pointsForDestroy: 1000
     asteroidsSettings:
       asteroidPrefab: {fileID: 5705146649738355848, guid: 36eada3de0a48fe4fa76eb7a1604e17a, type: 3}
-      destroyedPieces: {x: 1, y: 4}
+      asteroidPiecePrefab: {fileID: 0}
+      destroyedPiecesCount: {x: 0, y: 0}
       speedRange: {x: 3, y: 7}
       piecesSpeedMultiplier: 1.5
-      spawnSpeed: 3
+      spawnDelay: 3
       pointsForDestroy: 100

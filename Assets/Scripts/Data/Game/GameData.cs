@@ -13,7 +13,10 @@ namespace Data.Game
         public class Player
         {
             [SerializeField] private GameObject playerPrefab;
-            [SerializeField] private float speed;
+            [SerializeField] private LineRenderer laserVisual;
+            
+            [SerializeField] private float maxSpeed;
+            [SerializeField] private float acceleration;
             [SerializeField] private float rotationSpeed;
             [SerializeField] private float lasersCooldown;
             [SerializeField] private int lasersShoots;
@@ -29,13 +32,14 @@ namespace Data.Game
 
             public float LasersCooldown => lasersCooldown;
 
-            public float Speed => speed;
+            public float MaxSpeed => maxSpeed;
 
             public float BulletSpeed => bulletSpeed;
 
             public GameObject PlayerPrefab => playerPrefab;
 
             public float RotationSpeed => rotationSpeed;
+            public float Acceleration => acceleration;
         }
 
         [Serializable]
@@ -55,7 +59,7 @@ namespace Data.Game
                 [SerializeField] private GameObject UFOPrefab;
                 [SerializeField] private Vector2 speedRange;
                 [SerializeField] private float bulletSpeed;
-                [SerializeField] private float reloadSpeed;
+                [FormerlySerializedAs("reloadSpeed")] [SerializeField] private float reloadDelay;
 
                 [SerializeField, Range(0, 1f)] private float spawnChance;
                 [SerializeField] private int pointsForDestroy;
@@ -68,7 +72,7 @@ namespace Data.Game
 
                 public float BulletSpeed => bulletSpeed;
 
-                public float ReloadSpeed => reloadSpeed;
+                public float ReloadDelay => reloadDelay;
 
                 public float SpawnChance => spawnChance;
 

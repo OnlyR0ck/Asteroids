@@ -15,12 +15,15 @@ namespace Infrastructure.Services
         public void Init(GameStateMachine gameStateMachine, ICoroutineRunner coroutineRunner)
         {
             servicesContainer = new Dictionary<Type, IService>();
-            
+
             servicesHub = this;
             servicesHub
                 .RegisterService(new ResourcesService())
                 .RegisterService(new InputService())
                 .RegisterService(new ProgressService())
+
+                .RegisterService(new RewardService(
+                    servicesHub.Resolve<ProgressService>()))
 
                 .RegisterService(new GameObjectsService(
                     servicesHub.Resolve<ResourcesService>()))
@@ -28,15 +31,16 @@ namespace Infrastructure.Services
                 .RegisterService(new GameService(
                     servicesHub.Resolve<GameObjectsService>(),
                     servicesHub.Resolve<EnemiesService>(),
-                    servicesHub.Resolve<PlayerService>()))
+                    servicesHub.Resolve<PlayerService>(),
+                    servicesHub.Resolve<RewardService>()))
 
                 .RegisterService(new UIScreenService(
                     servicesHub,
                     gameStateMachine))
 
-                .RegisterService(new PlayerService( 
+                .RegisterService(new PlayerService(
                     servicesHub.Resolve<GameObjectsService>()))
-                
+
                 .RegisterService(new EnemiesService(
                     coroutineRunner,
                     servicesHub.Resolve<GameObjectsService>(),

@@ -10,14 +10,16 @@ namespace Infrastructure.Services
         private readonly PlayerService playerService;
 
         private LevelController level;
-        
+        private readonly RewardService rewardService;
+
         public event Action OnPlayerLose;
 
-        public GameService(GameObjectsService gameObjectsService, EnemiesService enemiesService, PlayerService playerService)
+        public GameService(GameObjectsService gameObjectsService, EnemiesService enemiesService, PlayerService playerService, RewardService rewardService)
         {
             this.gameObjectsService = gameObjectsService;
             this.enemiesService = enemiesService;
             this.playerService = playerService;
+            this.rewardService = rewardService;
         }
 
 
@@ -26,8 +28,11 @@ namespace Infrastructure.Services
 
         
         
-        public void PrepareForGame() => 
+        public void PrepareForGame()
+        {
             level = gameObjectsService.CreateLevel().GetComponent<LevelController>();
+            rewardService.ResetCurrentScore();
+        }
 
         public void StartGame()
         {
@@ -53,21 +58,22 @@ namespace Infrastructure.Services
         {
             playerService.Stop();
             enemiesService.StopSpawnEntities();
+            rewardService.SaveScore();
             
             UnsubscribeFromEvents();
         }
 
         private void PlayerService_OnPlayerKilled() => OnPlayerLose?.Invoke();
     }
-}
 
 
-public enum PooledObjectType
-{
-    None            = 0,
-    Asteroid        = 1,
-    AsteroidPiece   = 2,
-    Ufo             = 3,
-    PlayerBullet    = 4,
-    EnemyBullet     = 5
+    public enum PooledObjectType
+    {
+        None            = 0,
+        Asteroid        = 1,
+        AsteroidPiece   = 2,
+        Ufo             = 3,
+        PlayerBullet    = 4,
+        EnemyBullet     = 5
+    }
 }

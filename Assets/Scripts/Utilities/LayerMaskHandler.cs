@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Infrastructure.Services
+namespace Utilities
 {
     public static class LayerMaskHandler
     {

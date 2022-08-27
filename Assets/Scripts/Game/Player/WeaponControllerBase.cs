@@ -1,22 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using Infrastructure.Services;
+﻿using Infrastructure.Services;
+using Types.Weapon;
 using UnityEngine;
 
-public class WeaponControllerBase : MonoBehaviour
+namespace Game.Player
 {
-    protected WeaponType currentWeapon;
-
-    protected ServicesHub hub;
-    protected ResourcesService resourcesService;
-    protected GameObjectsService gameObjectsService;
-
-    protected void Awake()
+    public class WeaponControllerBase : MonoBehaviour
     {
-        hub = ServicesHub.Container;
+        protected WeaponType currentWeapon;
 
-        resourcesService = hub.Resolve<ResourcesService>();
-        gameObjectsService = hub.Resolve<GameObjectsService>();
+        protected ServicesHub hub;
+        protected ResourcesService resourcesService;
+        protected GameObjectsService gameObjectsService;
 
+        protected void Awake()
+        {
+            hub = ServicesHub.Container;
+
+            resourcesService = hub.Resolve<ResourcesService>();
+            gameObjectsService = hub.Resolve<GameObjectsService>();
+
+        }
     }
 }

@@ -7,6 +7,9 @@ using Action = Unity.Plastic.Antlr3.Runtime.Misc.Action;
 
 namespace Game.Player
 {
+    [RequireComponent(typeof(PlayerMovementController))]
+    [RequireComponent(typeof(CollisionHandler))]
+
     public class PlayerController : MonoBehaviour
     {
         private PlayerMovementController movementController;
@@ -19,21 +22,20 @@ namespace Game.Player
         {
             hub = ServicesHub.Container;
             
-            movementController = gameObject.AddComponent<PlayerMovementController>();
-            collisionHandler = gameObject.AddComponent<CollisionHandler>();
+            movementController = GetComponent<PlayerMovementController>();
+            collisionHandler = GetComponent<CollisionHandler>();
 
 
             movementController.Init(
                 hub.Resolve<ResourcesService>(), 
                 hub.Resolve<InputService>());
-
-            collisionHandler.OnEnter += CollisionHandler_OnEnter;
         }
 
-        private void CollisionHandler_OnEnter()
-        {
-            OnDamaged?.Invoke();
-        }
+        private void OnEnable() => collisionHandler.OnEnter += CollisionHandler_OnEnter;
+
+        private void OnDisable() => collisionHandler.OnEnter -= CollisionHandler_OnEnter;
+
+        private void CollisionHandler_OnEnter() => OnDamaged?.Invoke();
     }
     
 }

@@ -2,86 +2,88 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using Data.Game;
-using Infrastructure.Services;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-public class GameObjectsService : IService
+namespace Infrastructure.Services
 {
-    private readonly Dictionary<PooledObjectType, List<GameObject>> pools;
-    private readonly ResourcesService resourcesService;
-    private readonly GameData gameData;
-
-    public GameObjectsService(ResourcesService resourcesService)
+    public class GameObjectsService : IService
     {
-        this.resourcesService = resourcesService;
+        private readonly Dictionary<PooledObjectType, List<GameObject>> pools;
+        private readonly ResourcesService resourcesService;
+        private readonly GameData gameData;
 
-        gameData = resourcesService.GameData;
-        
-        pools = new Dictionary<PooledObjectType, List<GameObject>>()
+        public GameObjectsService(ResourcesService resourcesService)
         {
-            [PooledObjectType.Asteroid] = new List<GameObject>(),
-            [PooledObjectType.AsteroidPiece] = new List<GameObject>(),
-            [PooledObjectType.Ufo] = new List<GameObject>()
-        };
-    }
+            this.resourcesService = resourcesService;
 
-    
-    
-    public void Init()
-    {
+            gameData = resourcesService.GameData;
         
-    }
-
-
-    
-    public GameObject GetPooledObject(PooledObjectType key)
-    {
-        if (pools.ContainsKey(key))
-        {
-            IEnumerable<GameObject> pooledObjects = pools[key];
-            
-            GameObject freeObject = null;
-            foreach (GameObject pooledObject in pooledObjects)
+            pools = new Dictionary<PooledObjectType, List<GameObject>>()
             {
-                if (!pooledObject.activeSelf)
-                {
-                    freeObject = pooledObject;
-                }
-            }
-
-            if (freeObject == null)
-            {
-                freeObject = Object.Instantiate(GetObjectByType(key));
-                pools[key].Add(freeObject);
-            }
-
-            return freeObject;
+                [PooledObjectType.Asteroid] = new List<GameObject>(),
+                [PooledObjectType.AsteroidPiece] = new List<GameObject>(),
+                [PooledObjectType.Ufo] = new List<GameObject>()
+            };
         }
 
-        throw new InvalidEnumArgumentException($"There is no object with type {key}");
-    }
-
-
-    public GameObject CreatePlayer()
-    {
-        GameObject playerPrefab = gameData.PlayerSettings.PlayerPrefab;
-        return Object.Instantiate(playerPrefab);
-    }
-
-
-    public GameObject CreateLevel()
-    {
-        GameObject levelPrefab = gameData.LevelPrefab;
-        return Object.Instantiate(levelPrefab, GameSceneReferencesService.GameRoot);
-    }
-
-    private GameObject GetObjectByType(PooledObjectType type) =>
-        type switch
+    
+    
+        public void Init()
         {
-            PooledObjectType.Asteroid => gameData.EnemiesSettings.AsteroidsSettings.AsteroidPrefab,
-            PooledObjectType.AsteroidPiece => gameData.EnemiesSettings.AsteroidsSettings.AsteroidPiecePrefab,
-            PooledObjectType.Ufo => gameData.EnemiesSettings.UfoSettings.UfoPrefab,
-            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
-        };
+        
+        }
+
+
+    
+        public GameObject GetPooledObject(PooledObjectType key)
+        {
+            if (pools.ContainsKey(key))
+            {
+                IEnumerable<GameObject> pooledObjects = pools[key];
+            
+                GameObject freeObject = null;
+                foreach (GameObject pooledObject in pooledObjects)
+                {
+                    if (!pooledObject.activeSelf)
+                    {
+                        freeObject = pooledObject;
+                    }
+                }
+
+                if (freeObject == null)
+                {
+                    freeObject = Object.Instantiate(GetObjectByType(key));
+                    pools[key].Add(freeObject);
+                }
+
+                return freeObject;
+            }
+
+            throw new InvalidEnumArgumentException($"There is no object with type {key}");
+        }
+
+
+        public GameObject CreatePlayer()
+        {
+            GameObject playerPrefab = gameData.PlayerSettings.PlayerPrefab;
+            return Object.Instantiate(playerPrefab);
+        }
+
+
+        public GameObject CreateLevel()
+        {
+            GameObject levelPrefab = gameData.LevelPrefab;
+            return Object.Instantiate(levelPrefab, GameSceneReferencesService.GameRoot);
+        }
+
+        private GameObject GetObjectByType(PooledObjectType type) =>
+            type switch
+            {
+                PooledObjectType.Asteroid => gameData.EnemiesSettings.AsteroidsSettings.AsteroidPrefab,
+                PooledObjectType.AsteroidPiece => gameData.EnemiesSettings.AsteroidsSettings.AsteroidPiecePrefab,
+                PooledObjectType.Ufo => gameData.EnemiesSettings.UfoSettings.UfoPrefab,
+                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            };
+    }
 }

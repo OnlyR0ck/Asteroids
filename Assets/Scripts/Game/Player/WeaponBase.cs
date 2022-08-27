@@ -1,4 +1,7 @@
-﻿public class WeaponBase
+﻿namespace Game.Player
 {
+    public class WeaponBase
+    {
     
+    }
 }

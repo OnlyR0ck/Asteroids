@@ -1,6 +1,9 @@
-﻿public enum WeaponType
+﻿namespace Types.Weapon
 {
-    None     = 0,
-    Player   = 1,
-    Enemy    = 2
+    public enum WeaponType
+    {
+        None     = 0,
+        Player   = 1,
+        Enemy    = 2
+    }
 }

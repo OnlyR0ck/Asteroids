@@ -3,30 +3,33 @@ using Game.Player;
 using Infrastructure.Services;
 using UnityEngine;
 
-public class UfoMovementController : MonoBehaviour
+namespace Game.Enemies
 {
-    private PlayerService playerService;
-    private ResourcesService resourcesService;
-    private PlayerController player;
-    private GameData.Enemies.UFOs ufoSettings;
-    private float ufoSpeed;
-
-    private void Awake()
+    public class UfoMovementController : MonoBehaviour
     {
-        ServicesHub hub = ServicesHub.Container;
+        private PlayerService playerService;
+        private ResourcesService resourcesService;
+        private PlayerController player;
+        private GameData.Enemies.UFOs ufoSettings;
+        private float ufoSpeed;
+
+        private void Awake()
+        {
+            ServicesHub hub = ServicesHub.Container;
         
-        playerService = hub.Resolve<PlayerService>();
-        resourcesService = hub.Resolve<ResourcesService>();
+            playerService = hub.Resolve<PlayerService>();
+            resourcesService = hub.Resolve<ResourcesService>();
 
-        player = playerService.Player;
-        ufoSettings = resourcesService.GameData.EnemiesSettings.UfoSettings;
-        ufoSpeed = Random.Range(ufoSettings.SpeedRange.x, ufoSettings.SpeedRange.y);
-    }
+            player = playerService.Player;
+            ufoSettings = resourcesService.GameData.EnemiesSettings.UfoSettings;
+            ufoSpeed = Random.Range(ufoSettings.SpeedRange.x, ufoSettings.SpeedRange.y);
+        }
 
 
-    private void Update()
-    {
-        Vector2 currentDirection = player.transform.position - transform.position;
-        transform.Translate(currentDirection * (ufoSpeed * Time.deltaTime) );
+        private void Update()
+        {
+            Vector2 currentDirection = player.transform.position - transform.position;
+            transform.Translate(currentDirection * (ufoSpeed * Time.deltaTime) );
+        }
     }
 }

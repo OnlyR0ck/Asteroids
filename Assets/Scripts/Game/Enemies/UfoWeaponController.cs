@@ -1,40 +1,45 @@
 ﻿using System.Collections;
 using Data.Game;
+using Game.Player;
 using Infrastructure.Services;
 using UnityEngine;
+using Utilities;
 
-public class UfoWeaponController : WeaponControllerBase
+namespace Game.Enemies
 {
-    private GameData.Enemies.UFOs ufoSettings;
-
-
-    private void Awake()
+    public class UfoWeaponController : WeaponControllerBase
     {
-        base.Awake();
-
-        ufoSettings = resourcesService.GameData.EnemiesSettings.UfoSettings;
-        StartCoroutine(Coroutine_Shoot());
-    }
+        private GameData.Enemies.UFOs ufoSettings;
 
 
-    private IEnumerator Coroutine_Shoot()
-    {
-        while (true)
+        private void Awake()
         {
-            SpawnProjectile();
-            yield return new WaitForSeconds(ufoSettings.ReloadDelay);
+            base.Awake();
+
+            ufoSettings = resourcesService.GameData.EnemiesSettings.UfoSettings;
+            StartCoroutine(Coroutine_Shoot());
         }
-    }
+
+
+        private IEnumerator Coroutine_Shoot()
+        {
+            while (true)
+            {
+                SpawnProjectile();
+                yield return new WaitForSeconds(ufoSettings.ReloadDelay);
+            }
+        }
 
     
-    private void SpawnProjectile()
-    {
-        GameObject projectile = gameObjectsService.GetPooledObject(PooledObjectType.EnemyBullet);
+        private void SpawnProjectile()
+        {
+            GameObject projectile = gameObjectsService.GetPooledObject(PooledObjectType.EnemyBullet);
         
-        projectile.transform.position = transform.forward + Vector3.forward;
-        projectile.transform.rotation = Quaternion.identity;
-        projectile.layer = LayerMaskHandler.EnemiesLayer;
+            projectile.transform.position = transform.forward + Vector3.forward;
+            projectile.transform.rotation = Quaternion.identity;
+            projectile.layer = LayerMaskHandler.EnemiesLayer;
         
-        projectile.SetActive(true);
+            projectile.SetActive(true);
+        }
     }
 }

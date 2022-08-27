@@ -40,6 +40,7 @@ namespace Data.Game
 
             public float RotationSpeed => rotationSpeed;
             public float Acceleration => acceleration;
+            public LineRenderer LaserVisual => laserVisual;
         }
 
         [Serializable]
@@ -49,9 +50,7 @@ namespace Data.Game
 
             [Space] [SerializeField] private Asteroids asteroidsSettings;
 
-            private Enemies()
-            {
-            }
+            private Enemies() { }
 
             [Serializable]
             public class UFOs
@@ -86,7 +85,7 @@ namespace Data.Game
             {
                 [SerializeField] private GameObject asteroidPrefab;
                 [SerializeField] private GameObject asteroidPiecePrefab;
-                [SerializeField] private Vector2 destroyedPiecesCount;
+                [SerializeField] private Vector2Int destroyedPiecesCount;
                 [SerializeField] private Vector2 speedRange;
                 [SerializeField] private float piecesSpeedMultiplier;
                 [FormerlySerializedAs("spawnSpeed")] [SerializeField] private float spawnDelay;
@@ -95,7 +94,7 @@ namespace Data.Game
 
                 public GameObject AsteroidPrefab => asteroidPrefab;
 
-                public Vector2 DestroyedPiecesCount => destroyedPiecesCount;
+                public Vector2Int DestroyedPiecesCount => destroyedPiecesCount;
 
                 public Vector2 SpeedRange => speedRange;
 

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Net;
 using Infrastructure.Services;
-using UnityEditor;
 using UnityEngine;
-using Action = Unity.Plastic.Antlr3.Runtime.Misc.Action;
 
 namespace Game.Player
 {

@@ -4,12 +4,21 @@ namespace Infrastructure.Services
 {
     public class ProgressService : IService
     {
+        private PlayerData playerData;
+
+
+        public ProgressService()
+        {
+            playerData = new PlayerData();
+        }
+        
+        
         public void Init()
         {
             
         }
 
-        public PlayerData PlayerData { get; private set; }
+        public PlayerData PlayerData => playerData;
     }
 
     public class PlayerData

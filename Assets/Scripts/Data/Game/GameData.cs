@@ -116,6 +116,8 @@ namespace Data.Game
         #endregion
 
         [SerializeField] private GameObject levelPrefab;
+        
+        [SerializeField] private GameObject bulletPrefab;
 
         [Space, Header("Player")] [SerializeField]
         private Player playerSettings;
@@ -129,5 +131,7 @@ namespace Data.Game
         public Enemies EnemiesSettings => enemiesSettings;
 
         public GameObject LevelPrefab => levelPrefab;
+
+        public GameObject BulletPrefab => bulletPrefab;
     }
 }

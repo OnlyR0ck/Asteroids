@@ -9,10 +9,10 @@ namespace UI.Screens
         protected ServicesHub ServicesHub;
         protected GameStateMachine GameStateMachine;
 
-        public virtual void Init(ServicesHub servicesHub, GameStateMachine gameStateMachine)
+        public virtual void Init(ServicesHub servicesHub)
         {
             this.ServicesHub = servicesHub;
-            this.GameStateMachine = gameStateMachine;
+            this.GameStateMachine = GameStateMachine.Instance;
         }
 
         public void Close() => Destroy(gameObject);

@@ -23,7 +23,8 @@ namespace Infrastructure.Services
             {
                 [PooledObjectType.Asteroid] = new List<GameObject>(),
                 [PooledObjectType.AsteroidPiece] = new List<GameObject>(),
-                [PooledObjectType.Ufo] = new List<GameObject>()
+                [PooledObjectType.Ufo] = new List<GameObject>(),
+                [PooledObjectType.Bullet] = new List<GameObject>()
             };
         }
 
@@ -83,6 +84,7 @@ namespace Infrastructure.Services
                 PooledObjectType.Asteroid => gameData.EnemiesSettings.AsteroidsSettings.AsteroidPrefab,
                 PooledObjectType.AsteroidPiece => gameData.EnemiesSettings.AsteroidsSettings.AsteroidPiecePrefab,
                 PooledObjectType.Ufo => gameData.EnemiesSettings.UfoSettings.UfoPrefab,
+                PooledObjectType.Bullet => gameData.BulletPrefab,
                 _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
             };
     }

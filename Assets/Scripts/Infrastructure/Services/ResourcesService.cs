@@ -7,10 +7,15 @@ namespace Infrastructure.Services
     public class ResourcesService : IService
     {
         private const string GameDataPath = "Data/Game/Data_MainGame";
-        
-        private GameData gameData;
+        private const string ScreensDataPath = "Data/UI/Data_Screens";
 
-        public ScreensData Ui { get; set; }
+        private GameData gameData;
+        private ScreensData uiData;
+        
+        
+        
+        public ScreensData Ui => uiData ??= Resources.Load<ScreensData>(ScreensDataPath);
+
         public GameData GameData => gameData ??= Resources.Load<GameData>(GameDataPath);
 
         public void Init()

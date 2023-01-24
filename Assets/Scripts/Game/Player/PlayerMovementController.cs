@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Data.Game;
 using Infrastructure.Services;
 using UnityEngine;
@@ -29,9 +30,12 @@ namespace Game.Player
         private RotationType currentRotationType;
     
         private float currentSpeed;
-    
+
+        private Coroutine moveCoroutine;
+        
         private bool isMoving;
         private float moveCancelledTime;
+        private float moveStartTime;
 
         #endregion
 
@@ -39,22 +43,14 @@ namespace Game.Player
     
         #region Unity lifecycle
 
-        private void OnEnable()
-        {
-            inputService.OnMoveActionPerformed += InputService_MoveActionPerformed;
-            inputService.OnMoveActionCanceled += InputService_OnMoveActionCancelled;
-            inputService.OnRotateAction += InputService_OnRotateAction;
-        }
-
-
         private void OnDisable()
         {
             inputService.OnMoveActionPerformed -= InputService_MoveActionPerformed;
             inputService.OnMoveActionCanceled -= InputService_OnMoveActionCancelled;
-            inputService.OnRotateAction -= InputService_OnRotateAction;
+            inputService.OnRotateActionPerformed -= InputService_RotateActionPerformed;
         }
 
-    
+
         private void Update()
         {
             ProcessMovement();
@@ -72,35 +68,26 @@ namespace Game.Player
             this.resourcesService = resourcesService;
         
             playerSettings = resourcesService.GameData.PlayerSettings;
+            
+            SubscribeToEvents();
         }
 
         #endregion
 
 
-        private void InputService_OnRotateAction(float rotationAxis)
-        {
-            if (Math.Sign(rotationAxis) > 0)
-            {
-                currentRotationType = RotationType.Clockwise;
-            }
-            else if(Math.Sign(rotationAxis) <= 0)
-            {
-                currentRotationType = RotationType.CounterClockwise;
-            }
-            else
-            {
-                currentRotationType = RotationType.None;
-            }
-        }
-
+        #region Private Methods
 
         private void ProcessRotation()
         {
             if (currentRotationType != RotationType.None)
             {
-                transform.Rotate(-Vector3.back, playerSettings.RotationSpeed);
+                float rotationSpeed = currentRotationType == RotationType.Clockwise
+                    ? playerSettings.RotationSpeed : -playerSettings.RotationSpeed;
+                
+                transform.Rotate(-Vector3.back, rotationSpeed * Time.deltaTime);
             }
         }
+
 
         private void ProcessMovement()
         {
@@ -108,22 +95,73 @@ namespace Game.Player
             {
                 currentSpeed -= playerSettings.Acceleration * (Time.deltaTime * (Time.time - moveCancelledTime));
             }
-        
-            transform.Translate(transform.forward * (currentSpeed * Time.deltaTime));
+            
+            transform.Translate(transform.up * (currentSpeed * Time.deltaTime));
         }
 
-    
+        private void SubscribeToEvents()
+        {
+            inputService.OnMoveActionPerformed += InputService_MoveActionPerformed;
+            inputService.OnMoveActionCanceled += InputService_OnMoveActionCancelled;
+            inputService.OnRotateActionPerformed += InputService_RotateActionPerformed;
+            inputService.OnRotateActionCancelled += InputService_RotateActionCancelled;
+        }
+
+        #endregion
+
+
+        #region Event Handlers
+
+        private void InputService_RotateActionPerformed(float rotationAxis)
+        {
+            if (Math.Sign(rotationAxis) > 0)
+            {
+                currentRotationType = RotationType.Clockwise;
+            }
+            else if (Math.Sign(rotationAxis) < 0)
+            {
+                currentRotationType = RotationType.CounterClockwise;
+            }
+            
+            
+            Debug.Log($"Rotation Axis: {rotationAxis}");
+        }
+
+
+        private void InputService_RotateActionCancelled()
+        {
+            currentRotationType = RotationType.None;
+        }
+
+
+        private void InputService_MoveActionPerformed(float moveStartTime)
+        {
+            isMoving = true;
+            this.moveStartTime = moveStartTime;
+            
+            moveCoroutine = StartCoroutine(Coroutine_MoveCoroutine());
+        }
+
         private void InputService_OnMoveActionCancelled(float time)
         {
             isMoving = false;
             moveCancelledTime = time;
+            moveStartTime = 0;
+            
+            StopCoroutine(moveCoroutine);
         }
 
+        #endregion
 
-        private void InputService_MoveActionPerformed(float holdDuration)
+        IEnumerator Coroutine_MoveCoroutine()
         {
-            currentSpeed = holdDuration * playerSettings.Acceleration;
-            isMoving = true;
+            while (isMoving)
+            {
+                float holdDuration = Time.time - moveStartTime;
+                currentSpeed = holdDuration * playerSettings.Acceleration;
+                currentSpeed = Mathf.Clamp(Math.Abs(currentSpeed), 0, playerSettings.MaxSpeed);
+                yield return null;
+            }
         }
     }
 }

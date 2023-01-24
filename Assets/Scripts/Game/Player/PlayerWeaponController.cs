@@ -46,9 +46,10 @@ namespace Game.Player
 
         private void BulletShot()
         {
-            GameObject bulletProjectile = gameObjectsService.GetPooledObject(PooledObjectType.PlayerBullet);
+            GameObject bulletProjectile = gameObjectsService.GetPooledObject(PooledObjectType.Bullet);
             bulletProjectile.transform.localPosition = transform.forward + Vector3.forward;
             bulletProjectile.transform.localRotation = Quaternion.identity;
+            bulletProjectile.layer = LayerMaskHandler.Player;
         
             bulletProjectile.SetActive(true);
         }

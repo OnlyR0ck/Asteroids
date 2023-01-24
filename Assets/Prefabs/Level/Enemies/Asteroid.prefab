@@ -9,6 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3852006795866952077}
+  - component: {fileID: 3328122742295721342}
+  - component: {fileID: 5958175134596012517}
+  - component: {fileID: 6573643807221527488}
+  - component: {fileID: 7379016405495989067}
   m_Layer: 6
   m_Name: Asteroid
   m_TagString: Untagged
@@ -31,6 +35,69 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &3328122742295721342
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5705146649738355848}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.008223653, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.036184, y: 2.0197368}
+  m_EdgeRadius: 0
+--- !u!114 &5958175134596012517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5705146649738355848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6507cc370e994e7b9aa5aa10dd7d383, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6573643807221527488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5705146649738355848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ffd427f573594f83b1bef2f92956ced, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7379016405495989067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5705146649738355848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 041eb2d90b8d54b528e345310b17c946, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pieceSpreadRange: 10
 --- !u!1 &8901056029813813741
 GameObject:
   m_ObjectHideFlags: 0
@@ -102,7 +169,7 @@ SpriteRenderer:
   m_SortingLayerID: 1077385027
   m_SortingLayer: 2
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 23e870389bc801140a1258f9c9a77637, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9220878d6b58541fdb64ae376cd2eccf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

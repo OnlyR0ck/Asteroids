@@ -7,6 +7,7 @@ public class RewardService : IService
     private int currentScore;
     
     public int HighScore { get; private set; }
+    public int CurrentScore => currentScore;
 
     public RewardService(ProgressService progressService)
     {

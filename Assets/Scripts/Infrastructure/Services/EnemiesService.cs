@@ -3,6 +3,7 @@ using Data.Game;
 using Game.Level;
 using Infrastructure.GameRunner;
 using UnityEngine;
+using Utilities;
 
 namespace Infrastructure.Services
 {
@@ -50,10 +51,33 @@ namespace Infrastructure.Services
                 gameObjectsService.GetPooledObject(PooledObjectType.Asteroid) :
                 gameObjectsService.GetPooledObject(PooledObjectType.Ufo);
             
-            //TODO: Positioning our enemies outside of the screen
+            enemy.transform.position = GetRandomPositionToSpawn();
+            enemy.transform.rotation = Quaternion.Euler(Random.insideUnitCircle);
             enemy.transform.SetParent(level.EnemiesRoot);
+            enemy.SetActive(true);
             
             yield return new WaitForSeconds(enemiesSettings.AsteroidsSettings.SpawnDelay);
         }
+
+
+        private Vector3 GetRandomPositionToSpawn()
+        {
+            Vector2 position = Vector2.zero;
+            Bounds screenBounds = ScreenBounds.ScreenBoundsBorder.bounds;
+
+            if (Random.Range(0, 2) > 0)
+            {
+                position.x = Random.Range(screenBounds.min.x, screenBounds.max.x);
+                position.y = Random.Range(0, 2) > 0 ? screenBounds.min.y : screenBounds.max.y;
+            }
+            else
+            {
+                position.y = Random.Range(screenBounds.min.y, screenBounds.max.y);
+                position.x = Random.Range(0, 2) > 0 ? screenBounds.min.x : screenBounds.max.x;
+            }
+
+            return position;
+        }
+        
     }
 }

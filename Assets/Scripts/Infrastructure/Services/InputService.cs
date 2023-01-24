@@ -18,7 +18,8 @@ namespace Infrastructure.Services
         public event Action<float> OnMoveActionPerformed;
         public event Action<float> OnMoveActionCanceled;
         
-        public event Action<float> OnRotateAction;
+        public event Action<float> OnRotateActionPerformed;
+        public event Action OnRotateActionCancelled;
         
 
         public void Init()
@@ -41,10 +42,16 @@ namespace Infrastructure.Services
             moveAction.performed += MoveAction_Performed;
             moveAction.canceled += MoveAction_Canceled;
             rotateAction.performed += RotateAction_Performed;
+            rotateAction.canceled += RotateAction_Cancelled;
             firstFireAction.performed += FirstFireAction_Performed;
             secondFireAction.performed += SecondFireAction_Performed;
         }
 
+        
+        private void RotateAction_Cancelled(InputAction.CallbackContext ctx) => 
+            OnRotateActionCancelled?.Invoke();
+
+        
         public void DisablePlayerInput()
         {
             moveAction.Disable();
@@ -54,19 +61,20 @@ namespace Infrastructure.Services
             
             moveAction.performed -= MoveAction_Performed;
             moveAction.canceled -= MoveAction_Canceled;
+            rotateAction.canceled -= RotateAction_Cancelled;
             rotateAction.performed -= RotateAction_Performed;
             firstFireAction.performed -= FirstFireAction_Performed;
             secondFireAction.performed -= SecondFireAction_Performed;
         }
 
         private void MoveAction_Performed(InputAction.CallbackContext ctx) =>
-            OnMoveActionPerformed?.Invoke((float) ctx.duration);
+            OnMoveActionPerformed?.Invoke((float) ctx.startTime);
 
         private void MoveAction_Canceled(InputAction.CallbackContext ctx) =>
             OnMoveActionCanceled?.Invoke((float) ctx.time);
 
         private void RotateAction_Performed(InputAction.CallbackContext ctx) => 
-            OnRotateAction?.Invoke(rotateAction.ReadValue<float>());
+            OnRotateActionPerformed?.Invoke(rotateAction.ReadValue<float>());
 
         private void FirstFireAction_Performed(InputAction.CallbackContext ctx) => 
             OnFirstFireAction?.Invoke();

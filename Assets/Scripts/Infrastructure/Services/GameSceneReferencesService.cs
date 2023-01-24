@@ -8,7 +8,7 @@ namespace Infrastructure.Services
 
         [Header("Roots")]
         [SerializeField] private Transform gameRoot;
-        [SerializeField] private Canvas guiRoot;
+        [SerializeField] private Transform guiRoot;
         [SerializeField] private Transform guiScreensRoot;
 
         [Header("Cameras")]
@@ -21,7 +21,7 @@ namespace Infrastructure.Services
         #region Properties
 
         public static Transform GameRoot { get; private set; }
-        public static Canvas GuiRoot { get; private set; }
+        public static Transform GuiRoot { get; private set; }
 
         public static Transform GuiScreensRoot { get; private set; }
         public static Camera GuiCamera { get; private set; }

@@ -73,7 +73,7 @@ namespace Infrastructure.Services
         Asteroid        = 1,
         AsteroidPiece   = 2,
         Ufo             = 3,
-        PlayerBullet    = 4,
+        Bullet    = 4,
         EnemyBullet     = 5
     }
 }

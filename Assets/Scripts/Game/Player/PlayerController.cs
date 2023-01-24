@@ -1,13 +1,11 @@
-﻿using System;
-using System.Net;
-using Infrastructure.Services;
-using UnityEditor;
+﻿using Infrastructure.Services;
 using UnityEngine;
 using Action = Unity.Plastic.Antlr3.Runtime.Misc.Action;
 
 namespace Game.Player
 {
     [RequireComponent(typeof(PlayerMovementController))]
+    [RequireComponent(typeof(PlayerWeaponController))]
     [RequireComponent(typeof(CollisionHandler))]
 
     public class PlayerController : MonoBehaviour

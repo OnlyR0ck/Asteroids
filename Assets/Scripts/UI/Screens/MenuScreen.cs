@@ -25,12 +25,13 @@ namespace UI.Screens
 
         
         
-        public override void Init(ServicesHub servicesHub, GameStateMachine gameStateMachine)
+        public override void Init(ServicesHub servicesHub)
         {
+            base.Init(servicesHub);
+            
             progressService = servicesHub.Resolve<ProgressService>();
-            GameStateMachine = gameStateMachine;
 
-            highScoreTMP.text = $"{progressService.PlayerData.HighScore}";
+            highScoreTMP.text = $"{progressService.PlayerData.HighScore.ToString()}";
         }
 
         

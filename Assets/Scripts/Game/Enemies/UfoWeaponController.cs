@@ -33,7 +33,7 @@ namespace Game.Enemies
     
         private void SpawnProjectile()
         {
-            GameObject projectile = gameObjectsService.GetPooledObject(PooledObjectType.EnemyBullet);
+            GameObject projectile = gameObjectsService.GetPooledObject(PooledObjectType.Bullet);
         
             projectile.transform.position = transform.forward + Vector3.forward;
             projectile.transform.rotation = Quaternion.identity;

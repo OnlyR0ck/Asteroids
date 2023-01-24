@@ -8,7 +8,6 @@ namespace Infrastructure.Services
 {
     public class UIScreenService : IService
     {
-        private readonly GameStateMachine gameStateMachine;
         private readonly ServicesHub servicesHub;
     
         private readonly Dictionary<Type, BaseScreen> screens;
@@ -16,16 +15,17 @@ namespace Infrastructure.Services
         private BaseScreen currentScreen;
 
 
-        public void Init() { }
+        public void Init()
+        {
+        }
 
     
-        public UIScreenService(ServicesHub servicesHub, GameStateMachine gameStateMachine)
+        public UIScreenService(ServicesHub servicesHub)
         {
             screens = new Dictionary<Type, BaseScreen>();
 
             ResourcesService resourcesService = servicesHub.Resolve<ResourcesService>();
             this.servicesHub = servicesHub;
-            this.gameStateMachine = gameStateMachine;
 
             foreach (BaseScreen screen in resourcesService.Ui.Screens)
             {
@@ -43,7 +43,7 @@ namespace Infrastructure.Services
             BaseScreen newScreen = Object.Instantiate(newScreenPrefab, GameSceneReferencesService.GuiScreensRoot);
             currentScreen = newScreen;
 
-            newScreen.Init(servicesHub, gameStateMachine);
+            newScreen.Init(servicesHub);
         }
     }
 }

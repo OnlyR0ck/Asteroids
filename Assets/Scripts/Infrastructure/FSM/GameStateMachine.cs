@@ -5,13 +5,14 @@ using Infrastructure.Services;
 
 namespace Infrastructure.FSM
 {
-    public class GameStateMachine
+    public class GameStateMachine : IService
     {
+        private static GameStateMachine instance;
         private readonly Dictionary<Type, IExitableState> states;
         private IExitableState currentState;
 
         public GameStateMachine(ServicesHub servicesHub)
-        {
+        { 
             states = new Dictionary<Type, IExitableState>
             {
                 [typeof(BootState)] = new BootState(gameStateMachine: this),
@@ -32,16 +33,22 @@ namespace Infrastructure.FSM
                 
                 [typeof(EndGameState)] = new EndGameState(servicesHub)
             };
+
+            instance = this;
         }
 
+        public static GameStateMachine Instance => instance;
+
+
+        public void Init() { }
 
         public void EnterState<TState>() where TState : class, IState
         {
             IState newState = ChangeState<TState>();
             newState?.Enter();
         }
-        
-        
+
+
         private TState ChangeState<TState>() where TState : class, IState
         {
             currentState?.Exit();
@@ -52,7 +59,7 @@ namespace Infrastructure.FSM
             return newState;
         }
 
-        
+
         private TState GetState<TState>() where TState : class, IState => 
             states[typeof(TState)] as TState;
     }

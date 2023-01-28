@@ -2,11 +2,13 @@
 using Data.Game;
 using Game.Level;
 using Infrastructure.GameRunner;
+using Types.Pool;
 using UnityEngine;
+using Zenject;
 
 namespace Infrastructure.Services
 {
-    public class EnemiesService : IService
+    public class EnemiesService : IEnemiesService
     {
         private readonly ICoroutineRunner coroutineRunner;
         private readonly GameObjectsService gameObjectsService;
@@ -14,6 +16,7 @@ namespace Infrastructure.Services
         private LevelController level;
         private Coroutine spawnCoroutine;
 
+        [Inject]
         public EnemiesService(ICoroutineRunner coroutineRunner, GameObjectsService gameObjectsService, ResourcesService resourcesService)
         {
             this.coroutineRunner = coroutineRunner;

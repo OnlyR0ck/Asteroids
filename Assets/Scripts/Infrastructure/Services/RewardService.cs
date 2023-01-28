@@ -1,6 +1,15 @@
 ﻿using Infrastructure.Services;
 
-public class RewardService : IService
+public interface IRewardService
+{
+    int HighScore { get; }
+    void Init();
+    void AddScore(int points);
+    void SaveScore();
+    void ResetCurrentScore();
+}
+
+public class RewardService : IService, IRewardService
 {
     private readonly ProgressService progressService;
     

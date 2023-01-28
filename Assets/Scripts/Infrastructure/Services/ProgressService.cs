@@ -1,31 +1,12 @@
-using UnityEngine;
-
 namespace Infrastructure.Services
 {
-    public class ProgressService : IService
+    public interface IProgressService
     {
-        public void Init()
-        {
-            
-        }
-
-        public PlayerData PlayerData { get; private set; }
+        PlayerData PlayerData { get; }
     }
 
-    public class PlayerData
+    public class ProgressService :  IProgressService
     {
-        private const string HighScoreKey = "PlayerHighScore";
-
-        public int HighScore
-        {
-            get => PlayerPrefs.GetInt(HighScoreKey, 0);
-            set
-            {
-                if (value > 0)
-                {
-                    PlayerPrefs.SetInt(HighScoreKey, value);
-                }
-            }
-        }
+        public PlayerData PlayerData { get; private set; }
     }
 }

@@ -5,7 +5,7 @@ using Infrastructure.Services;
 
 namespace Infrastructure.FSM
 {
-    public class GameStateMachine
+    public class GameStateMachine : IGameStateMachine
     {
         private readonly Dictionary<Type, IExitableState> states;
         private IExitableState currentState;

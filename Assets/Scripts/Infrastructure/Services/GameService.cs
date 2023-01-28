@@ -1,20 +1,22 @@
 using System;
 using Game.Level;
+using Zenject;
 
 namespace Infrastructure.Services
 {
-    public class GameService : IService
+    public class GameService : IService, IGameService
     {
-        private readonly GameObjectsService gameObjectsService;
-        private readonly EnemiesService enemiesService;
-        private readonly PlayerService playerService;
+        private readonly IGameObjectsService gameObjectsService;
+        private readonly IEnemiesService enemiesService;
+        private readonly IPlayerService playerService;
 
         private LevelController level;
-        private readonly RewardService rewardService;
+        private readonly IRewardService rewardService;
 
         public event Action OnPlayerLose;
-
-        public GameService(GameObjectsService gameObjectsService, EnemiesService enemiesService, PlayerService playerService, RewardService rewardService)
+        
+        [Inject]
+        public GameService(IGameObjectsService gameObjectsService, IEnemiesService enemiesService, IPlayerService playerService, IRewardService rewardService)
         {
             this.gameObjectsService = gameObjectsService;
             this.enemiesService = enemiesService;
@@ -42,6 +44,15 @@ namespace Infrastructure.Services
             SubscribeToEvents();
         }
 
+        public void StopGame()
+        {
+            playerService.Stop();
+            enemiesService.StopSpawnEntities();
+            rewardService.SaveScore();
+            
+            UnsubscribeFromEvents();
+        }
+
         private void SpawnGameEntities()
         {
             playerService.SpawnPlayer(level);
@@ -54,26 +65,6 @@ namespace Infrastructure.Services
         private void UnsubscribeFromEvents() => 
             playerService.OnPlayerKilled -= PlayerService_OnPlayerKilled;
 
-        public void StopGame()
-        {
-            playerService.Stop();
-            enemiesService.StopSpawnEntities();
-            rewardService.SaveScore();
-            
-            UnsubscribeFromEvents();
-        }
-
         private void PlayerService_OnPlayerKilled() => OnPlayerLose?.Invoke();
-    }
-
-
-    public enum PooledObjectType
-    {
-        None            = 0,
-        Asteroid        = 1,
-        AsteroidPiece   = 2,
-        Ufo             = 3,
-        PlayerBullet    = 4,
-        EnemyBullet     = 5
     }
 }

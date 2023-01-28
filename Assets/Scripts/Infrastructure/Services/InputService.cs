@@ -1,12 +1,11 @@
 using System;
-using UnityEngine;
 using UnityEngine.InputSystem;
-
+using Zenject;
 
 
 namespace Infrastructure.Services
 {
-    public class InputService : IService
+    public class InputService : IInputService, IInitializable
     {
         private PlayerInputAsset playerInput;
         private InputAction moveAction;
@@ -19,9 +18,8 @@ namespace Infrastructure.Services
         public event Action<float> OnMoveActionCanceled;
         
         public event Action<float> OnRotateAction;
-        
 
-        public void Init()
+        public void Initialize()
         {
             playerInput = new PlayerInputAsset();
             

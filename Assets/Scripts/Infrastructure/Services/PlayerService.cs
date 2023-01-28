@@ -3,20 +3,23 @@ using Game.Level;
 using Game.Player;
 using UnityEngine;
 using Utilities;
+using Zenject;
 using Object = UnityEngine.Object;
 
 namespace Infrastructure.Services
 {
-    public class PlayerService : IService
+    public class PlayerService : IService, IPlayerService
     {
-        private readonly GameObjectsService gameObjectsService;
-        
+        private readonly IGameObjectsService gameObjectsService;
+        private PlayerController _player;
+
         public event Action OnPlayerKilled;
 
-        public PlayerController Player { get; private set; }
+        public IPlayer Player { get; private set; }
 
 
-        public PlayerService(GameObjectsService gameObjectsService) => 
+        [Inject]
+        public PlayerService(IGameObjectsService gameObjectsService) => 
             this.gameObjectsService = gameObjectsService;
 
         
@@ -27,24 +30,26 @@ namespace Infrastructure.Services
 
         public void SpawnPlayer(LevelController level)
         {
-            Player = gameObjectsService.CreatePlayer().GetComponent<PlayerController>();
-            Player.gameObject.layer = LayerMaskHandler.Player;
+            _player = gameObjectsService.CreatePlayer().GetComponent<PlayerController>();
+            Player = _player;
             
-            Player.transform.SetParent(level.PlayerRoot);
-            Player.transform.localPosition = Vector3.zero;
-            Player.transform.localRotation = Quaternion.identity;
+            _player.gameObject.layer = LayerMaskHandler.Player;
+            
+            _player.transform.SetParent(level.PlayerRoot);
+            _player.transform.localPosition = Vector3.zero;
+            _player.transform.localRotation = Quaternion.identity;
 
-            Player.OnDamaged += Player_OnDamaged;
+            _player.OnDamaged += Player_OnDamaged;
 
-            Player.gameObject.SetActive(true);
+            _player.gameObject.SetActive(true);
         }
 
-        public void Stop() => Object.Destroy(Player.gameObject);
+        public void Stop() => Object.Destroy(_player.gameObject);
 
         private void Player_OnDamaged()
         {
             OnPlayerKilled?.Invoke();
-            Player.OnDamaged -= Player_OnDamaged;
+            _player.OnDamaged -= Player_OnDamaged;
         }
     }
 }

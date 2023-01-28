@@ -7,7 +7,7 @@ namespace Game.Player
     [RequireComponent(typeof(PlayerMovementController))]
     [RequireComponent(typeof(CollisionHandler))]
 
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, IPlayer
     {
         private PlayerMovementController movementController;
         private CollisionHandler collisionHandler;
@@ -34,5 +34,4 @@ namespace Game.Player
 
         private void CollisionHandler_OnEnter() => OnDamaged?.Invoke();
     }
-    
 }

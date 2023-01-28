@@ -1,8 +1,10 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Infrastructure.Services
 {
-    public class GameSceneReferencesService : MonoBehaviour, IService
+    public class GameSceneReferencesService : MonoBehaviour, IInitializable
+    
     {
         #region Fields
 
@@ -43,5 +45,15 @@ namespace Infrastructure.Services
         }
 
         #endregion
+
+        public void Initialize()
+        {
+            GameRoot = gameRoot;
+            GuiRoot = guiRoot;
+
+            GuiScreensRoot = guiScreensRoot;
+
+            GuiCamera = gameCamera;
+        }
     }
 }

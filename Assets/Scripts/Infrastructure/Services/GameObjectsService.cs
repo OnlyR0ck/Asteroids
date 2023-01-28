@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using Data.Game;
+using Types.Pool;
 using UnityEngine;
+using Zenject;
 using Object = UnityEngine.Object;
 
 namespace Infrastructure.Services
 {
-    public class GameObjectsService : IService
+    public class GameObjectsService : IService, IGameObjectsService
     {
         private readonly Dictionary<PooledObjectType, List<GameObject>> pools;
         private readonly ResourcesService resourcesService;
         private readonly GameData gameData;
 
+        [Inject]
         public GameObjectsService(ResourcesService resourcesService)
         {
             this.resourcesService = resourcesService;
@@ -21,9 +24,9 @@ namespace Infrastructure.Services
         
             pools = new Dictionary<PooledObjectType, List<GameObject>>()
             {
-                [PooledObjectType.Asteroid] = new List<GameObject>(),
-                [PooledObjectType.AsteroidPiece] = new List<GameObject>(),
-                [PooledObjectType.Ufo] = new List<GameObject>()
+                [PooledObjectType.Asteroid] = new(),
+                [PooledObjectType.AsteroidPiece] = new(),
+                [PooledObjectType.Ufo] = new()
             };
         }
 
@@ -77,7 +80,7 @@ namespace Infrastructure.Services
             return Object.Instantiate(levelPrefab, GameSceneReferencesService.GameRoot);
         }
 
-        private GameObject GetObjectByType(PooledObjectType type) =>
+        public GameObject GetObjectByType(PooledObjectType type) =>
             type switch
             {
                 PooledObjectType.Asteroid => gameData.EnemiesSettings.AsteroidsSettings.AsteroidPrefab,

@@ -2,48 +2,52 @@
 using System.Collections.Generic;
 using Infrastructure.FSM;
 using UI.Screens;
+using Zenject;
 using Object = UnityEngine.Object;
 
 namespace Infrastructure.Services
 {
-    public class UIScreenService : IService
+    public class UIScreenService : IInitializable, IUIScreenService
     {
         private readonly GameStateMachine gameStateMachine;
-        private readonly ServicesHub servicesHub;
-    
+
         private readonly Dictionary<Type, BaseScreen> screens;
-    
+        private readonly List<BaseScreen> screensData;
+
         private BaseScreen currentScreen;
 
+        
 
-        public void Init() { }
-
-    
-        public UIScreenService(ServicesHub servicesHub, GameStateMachine gameStateMachine)
+        [Inject]
+        public UIScreenService(IResourcesService resourcesService, GameStateMachine gameStateMachine)
         {
+            screensData = resourcesService.Ui.Screens;
             screens = new Dictionary<Type, BaseScreen>();
-
-            ResourcesService resourcesService = servicesHub.Resolve<ResourcesService>();
-            this.servicesHub = servicesHub;
+            
             this.gameStateMachine = gameStateMachine;
-
-            foreach (BaseScreen screen in resourcesService.Ui.Screens)
-            {
-                screens.Add(screen.GetType(), screen);
-            }
         }
 
-    
-    
+        public void Initialize() => LoadScreensData();
+
+
         public void ShowScreen<TScreenType>() where TScreenType : BaseScreen
         {
-            currentScreen?.Close();
+            if(currentScreen != null)
+                currentScreen.Close();
         
             BaseScreen newScreenPrefab = screens[typeof(TScreenType)];
             BaseScreen newScreen = Object.Instantiate(newScreenPrefab, GameSceneReferencesService.GuiScreensRoot);
             currentScreen = newScreen;
 
-            newScreen.Init(servicesHub, gameStateMachine);
+            newScreen.Init(gameStateMachine);
+        }
+
+        private void LoadScreensData()
+        {
+            foreach (BaseScreen screen in screensData)
+            {
+                screens.Add(screen.GetType(), screen);
+            }
         }
     }
 }
